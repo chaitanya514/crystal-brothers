@@ -10,12 +10,12 @@ export default function Home() {
     <div className="bg-white">
       <Navbar />
       <div className="relative isolate px-6 pt-14 lg:px-8">
-        <Image
+        {/* <Image
           src="/heroimg.png"
           alt="Picture of the author"
           width={500}
           height={500}
-        ></Image>
+        ></Image> */}
       </div>
     </div>
   );
