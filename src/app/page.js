@@ -8,7 +8,6 @@ export default async function Home() {
   // ✅ fetch data server-side before rendering
   const sectionComponentData = await getSection();
   const firstImageUrl = getImageUrl(sectionComponentData[0]?.fields?.image);
-  console.log("sectionComponentData",sectionComponentData)
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -43,17 +42,36 @@ export default async function Home() {
       </header>
 
       {/* Section using dynamic Contentful image */}
-      <Section imgSrc={firstImageUrl || "/images/greenavanturine/gasideblock.jpg"} imageSide={sectionComponentData[0]?.fields?.imageSide}/>
+      <Section
+        imgSrc={firstImageUrl || "/images/greenavanturine/gasideblock.jpg"}
+        imageSide={sectionComponentData[0]?.fields?.imageSide}
+      />
 
       {/* Products Preview Section */}
       <section id="shop" className="py-16 px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-12">Crystal Trees</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { name: "Amethyst", color: "Purple", image: "/images/amethyst/amethyst_tree.png" },
-            { name: "Rose Quartz", color: "Pink", image: "/images/rosequartz/rq3.webp" },
-            { name: "Clear Quartz", color: "White", image: "/images/clearquartz/cq2.jpeg" },
-            { name: "Green Aventurine", color: "Green", image: "/images/greenavanturine/ga4.avif" },
+            {
+              name: "Amethyst",
+              color: "Purple",
+              image: "/images/amethyst/amethyst_tree.png",
+            },
+            {
+              name: "Rose Quartz",
+              color: "Pink",
+              image: "/images/rosequartz/rq3.webp",
+            },
+            {
+              name: "Clear Quartz",
+              color: "White",
+              image: "/images/clearquartz/cq2.jpeg",
+            },
+            {
+              name: "Green Aventurine",
+              color: "Green",
+              image: "/images/greenavanturine/ga4.avif",
+            },
           ].map((crystal) => (
             <div
               key={crystal.name}
@@ -64,14 +82,16 @@ export default async function Home() {
                 alt={crystal.name}
                 className="mx-auto h-80"
               />
-              <h3 className="text-xl font-semibold text-gray-800">{crystal.name}</h3>
+              <h3 className="text-xl font-semibold text-gray-800">
+                {crystal.name}
+              </h3>
               <p className="text-sm text-gray-500">{crystal.color} Energy</p>
             </div>
           ))}
         </div>
       </section>
 
-      <Section imgSrc="/images/greenavanturine/ga1.jpg" imageSide="right"/>
+      <Section imgSrc="/images/greenavanturine/ga1.jpg" imageSide="right" />
 
       {/* Footer */}
       <footer className="py-10 text-center text-sm text-gray-500">

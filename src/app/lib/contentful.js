@@ -15,10 +15,10 @@
 import { createClient } from "contentful";
 
 const client = createClient({
-  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,   // or NEXT_PUBLIC_...
+  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID, // or NEXT_PUBLIC_...
   accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
 });
 
-console.log("client",client)
+console.log("client", client);
 
 export default client;
