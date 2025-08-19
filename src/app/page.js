@@ -3,6 +3,7 @@ import Head from "next/head";
 import Section from "./components/Section/Section";
 import { getSection } from "./lib/api";
 import { getImageUrl } from "./lib/image";
+import Navbar from "./components/Navbar/Navbar";
 
 export default async function Home() {
   // ✅ fetch data server-side before rendering
@@ -18,7 +19,7 @@ export default async function Home() {
           content="Discover healing crystals for balance and clarity"
         />
       </Head>
-
+      <Navbar />
       {/* Hero Section */}
       <header className="relative bg-green-50">
         <div className="absolute inset-0">
@@ -40,6 +41,7 @@ export default async function Home() {
           </a>
         </div>
       </header>
+   
 
       {/* Section using dynamic Contentful image */}
       <Section
