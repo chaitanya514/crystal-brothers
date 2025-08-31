@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useRouter } from 'next/navigation'
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -10,8 +11,11 @@ const navigation = [
   { name: "Company", href: "#" },
 ];
 
-const Navbar = () => {
+const Navbar = ({userName}) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter()
+
+
   return (
     <>
       <header className="bg-white">
@@ -98,6 +102,8 @@ const Navbar = () => {
 
             <div className="flex items-center gap-4">
               <div className="sm:flex sm:gap-4">
+
+  
                 <a
                   className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
                   href="#"
@@ -107,7 +113,8 @@ const Navbar = () => {
 
                 <a
                   className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
-                  href="#"
+                  // href="#"
+                  onClick={() => router.push('/signup')}
                 >
                   Register
                 </a>
