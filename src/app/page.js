@@ -1,14 +1,34 @@
-// pages/index.js
+"use client"
 import Head from "next/head";
 import Section from "./components/Section/Section";
 import { getSection } from "./lib/api";
 import { getImageUrl } from "./lib/image";
 import Navbar from "./components/Navbar/Navbar";
+import { auth } from "./lib/firebase";
+import { useAuth } from "./lib/useAuth";
 
-export default async function Home() {
+import {useState,useEffect} from "react";
+
+
+export default function Home() {
+
+  const {user,loading} = useAuth()
   // ✅ fetch data server-side before rendering
-  const sectionComponentData = await getSection();
-  const firstImageUrl = getImageUrl(sectionComponentData[0]?.fields?.image);
+
+  const [sections, setSections] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getSection();
+      setSections(data);
+    }
+    fetchData();
+  }, []); // ✅ empty deps → only once
+
+  const firstImageUrl = getImageUrl(sections[0]?.fields?.image);
+
+  console.log("user.....",user)
+
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -19,7 +39,7 @@ export default async function Home() {
           content="Discover healing crystals for balance and clarity"
         />
       </Head>
-      <Navbar />
+      <Navbar  />
       {/* Hero Section */}
       <header className="relative bg-green-50">
         <div className="absolute inset-0">
@@ -46,7 +66,7 @@ export default async function Home() {
       {/* Section using dynamic Contentful image */}
       <Section
         imgSrc={firstImageUrl || "/images/greenavanturine/gasideblock.jpg"}
-        imageSide={sectionComponentData[0]?.fields?.imageSide}
+        imageSide={sections[0]?.fields?.imageSide}
       />
 
       {/* Products Preview Section */}
