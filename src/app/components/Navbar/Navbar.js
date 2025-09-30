@@ -2,19 +2,19 @@
 import React, { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
-const navigation = [
-  { name: "Product", href: "#" },
-  { name: "Features", href: "#" },
-  { name: "Marketplace", href: "#" },
-  { name: "Company", href: "#" },
+export const navItems = [
+  { key: "home", label: "Home", href: "/" },
+  { key: "shop", label: "Shop", href: "/shop" },
+  { key: "about", label: "About", href: "/about" },
+  { key: "contact", label: "Contact", href: "/contact" },
+  { key: "faq", label: "FAQ", href: "/faq" },
 ];
 
-const Navbar = ({userName}) => {
+const Navbar = ({ userName }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const router = useRouter()
-
+  const router = useRouter();
 
   return (
     <>
@@ -38,72 +38,21 @@ const Navbar = ({userName}) => {
           <div className="flex flex-1 items-center justify-end md:justify-between">
             <nav aria-label="Global" className="hidden md:block">
               <ul className="flex items-center gap-6 text-sm">
-                <li>
-                  <a
-                    className="text-gray-500 transition hover:text-gray-500/75"
-                    href="#"
-                  >
-                    {" "}
-                    About{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    className="text-gray-500 transition hover:text-gray-500/75"
-                    href="#"
-                  >
-                    {" "}
-                    Careers{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    className="text-gray-500 transition hover:text-gray-500/75"
-                    href="#"
-                  >
-                    {" "}
-                    History{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    className="text-gray-500 transition hover:text-gray-500/75"
-                    href="#"
-                  >
-                    {" "}
-                    Services{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    className="text-gray-500 transition hover:text-gray-500/75"
-                    href="#"
-                  >
-                    {" "}
-                    Projects{" "}
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    className="text-gray-500 transition hover:text-gray-500/75"
-                    href="#"
-                  >
-                    {" "}
-                    Blog{" "}
-                  </a>
-                </li>
+                {navItems?.map((navItem) => 
+                  <li key={navItem.key}>
+                    <a
+                      className="text-gray-500 transition hover:text-gray-500/75"
+                      href="#"
+                    >
+                      {navItem.label}
+                    </a>
+                  </li>
+                )}
               </ul>
             </nav>
 
             <div className="flex items-center gap-4">
               <div className="sm:flex sm:gap-4">
-
-  
                 <a
                   className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
                   href="#"
@@ -114,7 +63,7 @@ const Navbar = ({userName}) => {
                 <a
                   className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
                   // href="#"
-                  onClick={() => router.push('/signup')}
+                  onClick={() => router.push("/signup")}
                 >
                   Register
                 </a>
