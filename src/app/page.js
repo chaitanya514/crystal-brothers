@@ -1,34 +1,34 @@
-"use client"
+"use client";
 import Head from "next/head";
 import Section from "./components/Section/Section";
-import { getSection } from "./lib/api";
+import { getSection,getCrystalStones} from "./lib/api";
 import { getImageUrl } from "./lib/image";
 import Navbar from "./components/Navbar/Navbar";
 import { auth } from "./lib/firebase";
 import { useAuth } from "./lib/useAuth";
 
-import {useState,useEffect} from "react";
-
+import { useState, useEffect } from "react";
 
 export default function Home() {
-
-  const {user,loading} = useAuth()
+  const { user, loading } = useAuth();
   // ✅ fetch data server-side before rendering
 
   const [sections, setSections] = useState([]);
+  const [crystalStonesData, setCrystalStonesData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const data = await getSection();
+      const crystalStonesData = await getCrystalStones();
       setSections(data);
+      setCrystalStonesData(crystalStonesData);
     }
     fetchData();
   }, []); // ✅ empty deps → only once
 
+  console.log("crystalStonesData", crystalStonesData);
+
   const firstImageUrl = getImageUrl(sections[0]?.fields?.image);
-
-  console.log("user.....",user)
-
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
@@ -39,7 +39,7 @@ export default function Home() {
           content="Discover healing crystals for balance and clarity"
         />
       </Head>
-      <Navbar  />
+
       {/* Hero Section */}
       <header className="relative bg-green-50">
         <div className="absolute inset-0">
@@ -61,7 +61,6 @@ export default function Home() {
           </a>
         </div>
       </header>
-   
 
       {/* Section using dynamic Contentful image */}
       <Section

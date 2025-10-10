@@ -9,3 +9,13 @@ export async function getSection() {
     return [];
   }
 }
+
+export async function getCrystalStones() {
+  try {
+    const response = await client.getEntries({ content_type: "crystalStones" });
+    return response.items;
+  } catch (error) {
+    console.error("Error fetching sections:", error);
+    return [];
+  }
+}

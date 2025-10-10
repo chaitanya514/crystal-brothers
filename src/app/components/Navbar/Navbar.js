@@ -9,7 +9,7 @@ export const navItems = [
   { key: "shop", label: "Shop", href: "/shop" },
   { key: "about", label: "About", href: "/about" },
   { key: "contact", label: "Contact", href: "/contact" },
-  { key: "faq", label: "FAQ", href: "/faq" },
+  { key: "explore-crystals", label: "Explore Crystals", href: "/explore-crystals" },
 ];
 
 const Navbar = ({ userName }) => {
@@ -42,7 +42,8 @@ const Navbar = ({ userName }) => {
                   <li key={navItem.key}>
                     <a
                       className="text-gray-500 transition hover:text-gray-500/75"
-                      href="#"
+                      // href="#"
+                      onClick={() => router.push(navItem.href)}
                     >
                       {navItem.label}
                     </a>
