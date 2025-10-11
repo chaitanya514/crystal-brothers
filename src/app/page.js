@@ -26,7 +26,6 @@ export default function Home() {
     fetchData();
   }, []); // ✅ empty deps → only once
 
-  console.log("crystalStonesData", crystalStonesData);
 
   const firstImageUrl = getImageUrl(sections[0]?.fields?.image);
 
