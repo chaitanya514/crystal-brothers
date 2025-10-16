@@ -1,13 +1,14 @@
-"use client"
+"use client";
 import React from "react";
 import { useCrystalStones } from "../context/CrystalStonesContext";
+import { useRouter } from "next/navigation";
 
 const ExploreCrystals = () => {
+  const { crystalStones, loading } = useCrystalStones();
+  const router = useRouter();
 
+  console.log("crystalStones", crystalStones);
 
-const {crystalStones,loading} = useCrystalStones();
-
-console.log("crystalStones............",crystalStones);
   return (
     <>
       <header className="relative bg-green-50">
@@ -23,7 +24,6 @@ console.log("crystalStones............",crystalStones);
           </p>
           <div className="max-w-xl mx-auto">
             <label htmlFor="Search">
-
               <div className="relative ml-5 py-5">
                 <input
                   type="text"
@@ -57,10 +57,30 @@ console.log("crystalStones............",crystalStones);
           </div>
         </div>
       </header>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-8 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="h-32 rounded bg-gray-300"></div>
-        <div className="h-32 rounded bg-gray-300"></div>
-        <div className="h-32 rounded bg-gray-300"></div>
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8 relative">
+        {crystalStones.length > 0 &&
+          crystalStones.map((crystalStone, i) => {
+            const imgUrl = crystalStone?.fields?.image?.fields?.file?.url;
+
+            return (
+              <div
+                key={i}
+                className="relative aspect-square overflow-hidden rounded-2xl shadow hover:shadow-lg transition cursor-pointer"
+                onClick={() => router.push("explore-crystals/"+crystalStone?.fields?.slug)}
+              >
+                <img
+                  src={imgUrl}
+                  alt={crystalStone?.fields?.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/20 hover:bg-black/10 transition"></div>
+                <h4 className="absolute bottom-3 left-0 right-0 text-center text-white font-semibold drop-shadow-lg">
+                  {crystalStone?.fields?.name}
+                </h4>
+              </div>
+            );
+          })}
       </div>
     </>
   );
