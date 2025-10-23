@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import { CrystalStonesProvider } from "./context/CrystalStonesContext";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +22,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
   return (
     <html lang="en">
       <body
@@ -34,3 +37,5 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+
