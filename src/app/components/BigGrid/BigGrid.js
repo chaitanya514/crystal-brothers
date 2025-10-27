@@ -1,14 +1,9 @@
 import React from "react";
 import { motion } from "motion/react";
 
-
-const BigGrid = ({name,color,image}) => {
+const BigGrid = ({ name, color, image }) => {
   return (
-    <motion.button
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-      onHoverStart={() => console.log("hover started!")}
-    >
+    <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
       <div
         key={name}
         className="text-center shadow rounded-2xl p-5 hover:shadow-lg transition cursor-pointer"

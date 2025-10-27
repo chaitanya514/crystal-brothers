@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export const ProductDetail = ({ imgSrc, name, properties, description }) => {
-  console.log("description", description);
+ 
   return (
     <section className="bg-gradient-to-b from-white to-green-50 py-12">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">

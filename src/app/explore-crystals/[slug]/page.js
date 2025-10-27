@@ -18,9 +18,6 @@ export default function CrystalStoneDetailPage({ params }) {
   const description  = crystal?.fields?.description
 
   
-  
-
-console.log("description........",description)
   if (!crystal) return <p>Crystal not found.</p>;
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">

@@ -5,19 +5,24 @@ import { getSection, getCrystalStones } from "./lib/api";
 import { getImageUrl } from "./lib/image";
 import Navbar from "./components/Navbar/Navbar";
 import { auth } from "./lib/firebase";
-import { useAuth } from "./lib/useAuth";
+// import { useAuth } from "./lib/useAuth";
 
 import { motion } from "motion/react";
 
 import { useState, useEffect } from "react";
 import BigGrid from "./components/BigGrid/BigGrid";
+import { useAuthUser } from "./context/authContext";
 
 export default function Home() {
-  const { user, loading } = useAuth();
+  // const { user, loading } = useAuth();
   // ✅ fetch data server-side before rendering
+
+  const { user, loading } = useAuthUser();
 
   const [sections, setSections] = useState([]);
   const [crystalStonesData, setCrystalStonesData] = useState([]);
+
+  console.log("user...", user);
 
   useEffect(() => {
     async function fetchData() {
@@ -143,8 +148,6 @@ export default function Home() {
       >
         <Section imgSrc="/images/greenavanturine/ga1.jpg" imageSide="right" />
       </motion.div>
-
-  
     </div>
   );
 }

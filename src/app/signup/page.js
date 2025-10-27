@@ -8,6 +8,8 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  console.log("error....", error);
+
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
@@ -19,28 +21,39 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 px-4">
       <form
         onSubmit={handleSignup}
-        className="bg-white p-6 rounded-xl shadow-md w-80"
+        className="w-full max-w-sm bg-white/90 backdrop-blur shadow-xl rounded-2xl p-8 border border-green-100"
       >
-        <h2 className="text-xl font-bold mb-4">Sign Up</h2>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <input
-          type="email"
-          placeholder="Email"
-          className="border p-2 w-full mb-2 rounded"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="border p-2 w-full mb-2 rounded"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <h2 className="text-2xl font-semibold text-center text-green-800 mb-6">
+          Create Account
+        </h2>
+
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">
+            {error && "e-mail address is already registered"}
+          </p>
+        )}
+
+        <div className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email address"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-300 outline-none text-sm"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-300 outline-none text-sm"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          className="mt-6 w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg transition-all"
         >
           Sign Up
         </button>

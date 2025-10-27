@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import { CrystalStonesProvider } from "./context/CrystalStonesContext";
 import { motion, AnimatePresence } from "framer-motion";
-
+import { UserAuthProvider } from "./context/authContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,20 +22,19 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CrystalStonesProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </CrystalStonesProvider>
+        <UserAuthProvider>
+          <CrystalStonesProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </CrystalStonesProvider>
+        </UserAuthProvider>
       </body>
     </html>
   );
 }
-
-
