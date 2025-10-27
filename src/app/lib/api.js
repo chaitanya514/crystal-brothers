@@ -19,3 +19,13 @@ export async function getCrystalStones() {
     return [];
   }
 }
+
+export async function getNavbarData() {
+  try {
+    const response = await client.getEntries({ content_type: "navbar" });
+    return response.items;
+  } catch (error) {
+    console.error("Error fetching sections:", error);
+    return [];
+  }
+}

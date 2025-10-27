@@ -4,11 +4,12 @@ import { auth } from "../lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Signup() {
+
+  const [firstName,setFirstName] =useState("")
+  const [lastName,setLastName] =useState("")
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  console.log("error....", error);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -37,6 +38,18 @@ export default function Signup() {
         )}
 
         <div className="space-y-4">
+        <input
+            type="firstName"
+            placeholder="First Name"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-300 outline-none text-sm"
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <input
+            type="lastName"
+            placeholder="Last Name"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-300 outline-none text-sm"
+            onChange={(e) => setLastName(e.target.value)}
+          />
           <input
             type="email"
             placeholder="Email address"

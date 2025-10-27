@@ -1,21 +1,32 @@
 "use client";
-import React, { useState } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuthUser } from "@/app/context/authContext";
+import { signOutUser } from "@/app/lib/firebase";
+import { getNavbarData } from "@/app/lib/api";
 
-export const navItems = [
-  { key: "home", label: "Home", href: "/" },
-  { key: "shop", label: "Shop", href: "/shop" },
-  { key: "about", label: "About", href: "/about" },
-  { key: "contact", label: "Contact", href: "/contact" },
-  { key: "explore-crystals", label: "Explore Crystals", href: "/explore-crystals" },
-];
-
-const Navbar = ({ userName }) => {
+const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [navbarMenu, setNavbarMenu] = useState([]);
   const router = useRouter();
 
+  const { user, loading } = useAuthUser();
+  const firstLetter = user?.email?.charAt(0)?.toUpperCase();
+
+  useEffect(() => {
+    async function fetchData() {
+      const navBarItesms = await getNavbarData();
+      setNavbarMenu(navBarItesms[0]?.fields?.menuItems);
+    }
+    fetchData();
+  }, []);
+
+  const logoutUser = () => {
+    signOutUser();
+    router.push("/");
+  };
   return (
     <>
       <header className="bg-white">
@@ -38,38 +49,78 @@ const Navbar = ({ userName }) => {
           <div className="flex flex-1 items-center justify-end md:justify-between">
             <nav aria-label="Global" className="hidden md:block">
               <ul className="flex items-center gap-6 text-sm">
-                {navItems?.map((navItem) => 
+                {navbarMenu?.map((navItem) => (
                   <li key={navItem.key}>
                     <a
                       className="text-green-700 transition hover:text-green-500/100 cursor-pointer"
-                      // href="#"
                       onClick={() => router.push(navItem.href)}
                     >
                       {navItem.label}
                     </a>
                   </li>
-                )}
+                ))}
               </ul>
             </nav>
 
             <div className="flex items-center gap-4">
-              <div className="sm:flex sm:gap-4">
-                <a
-                  className="block rounded-md bg-green-700 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                  // href=""
-                  onClick={() => router.push("/login")}
-                >
-                  Login
-                </a>
+              {!user && (
+                <div className="sm:flex sm:gap-4">
+                  <a
+                    className="block rounded-md bg-green-700 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                    onClick={() => router.push("/login")}
+                  >
+                    Login
+                  </a>
 
-                <a
-                  className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-green-700 transition hover:text-green-500/100 sm:block cursor-pointer"
-                  // href="#"
-                  onClick={() => router.push("/signup")}
-                >
-                  Register
-                </a>
-              </div>
+                  <a
+                    className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-green-700 transition hover:text-green-500/100 sm:block cursor-pointer"
+                    onClick={() => router.push("/signup")}
+                  >
+                    Register
+                  </a>
+                </div>
+              )}
+              {user && (
+                <div className="relative">
+                  {/* AVATAR BUTTON */}
+                  <button
+                    onClick={() => setOpen(!open)}
+                    className="w-10 h-10 rounded-full bg-green-600 text-white flex items-center justify-center cursor-pointer"
+                  >
+                    {firstLetter}
+                  </button>
+
+                  {/* DROPDOWN */}
+                  {open && (
+                    <div className="absolute right-0 mt-2 w-48 rounded-xl border border-green-100 bg-white/90 backdrop-blur shadow-lg z-50 overflow-hidden text-sm">
+                      {/* EMAIL HEADER */}
+                      <p className="px-4 py-2.5 text-gray-700 font-medium border-b border-gray-100 truncate">
+                        {user.email}
+                      </p>
+
+                      {/* PROFILE LINK */}
+                      <Link
+                        href="/profile"
+                        onClick={() => setOpen(false)}
+                        className="block px-4 py-2.5 hover:bg-green-50 text-gray-700 transition"
+                      >
+                        View Profile
+                      </Link>
+
+                      {/* SIGN OUT */}
+                      <button
+                        onClick={() => {
+                          logoutUser();
+                          setOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 transition cursor-pointer"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <button className="block rounded-sm bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden">
                 <span className="sr-only">Toggle menu</span>
