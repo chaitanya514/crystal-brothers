@@ -4,21 +4,17 @@ import Section from "./components/Section/Section";
 import { getSection, getCrystalStones } from "./lib/api";
 import { getImageUrl } from "./lib/image";
 import Navbar from "./components/Navbar/Navbar";
-import { auth } from "./lib/firebase";
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import BigGrid from "./components/BigGrid/BigGrid";
 import { useAuthUser } from "./context/authContext";
+import Carousel from "./components/Carousel/Carousel";
 
 export default function Home() {
-
-
   const { user, loading } = useAuthUser();
 
   const [sections, setSections] = useState([]);
   const [crystalStonesData, setCrystalStonesData] = useState([]);
-
-  console.log("user...", user);
 
   useEffect(() => {
     async function fetchData() {
@@ -34,6 +30,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
+
       <Head>
         <title>Crystal Brothers</title>
         <meta
@@ -51,6 +48,8 @@ export default function Home() {
           scale: { type: "spring", visualDuration: 0.4, bounce: 0.3 },
         }}
       >
+     
+
         <header className="relative bg-green-50">
           <div className="absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-green-100 to-white opacity-60"></div>
@@ -72,6 +71,7 @@ export default function Home() {
             </a>
           </div>
         </header>
+        <Carousel />
       </motion.div>
 
       {/* Section using dynamic Contentful image */}

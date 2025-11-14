@@ -14,6 +14,7 @@ const ExploreCrystals = () => {
     item?.fields?.name?.toLowerCase().includes(query.toLowerCase())
   );
   
+  console.log("crystalStones",crystalStones)
 
   return (
     <>
