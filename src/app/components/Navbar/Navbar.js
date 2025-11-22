@@ -5,12 +5,17 @@ import { useRouter } from "next/navigation";
 import { useAuthUser } from "@/app/context/authContext";
 import { signOutUser } from "@/app/lib/firebase";
 import { getNavbarData } from "@/app/lib/api";
+import { useCart } from "@/app/context/CartContext";
+import { ShoppingCart } from "lucide-react";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [navbarMenu, setNavbarMenu] = useState([]);
   const router = useRouter();
+  const { cart,totalQuantity } = useCart();
+
+  console.log("cart", cart);
 
   const { user, loading } = useAuthUser();
   const firstLetter = user?.email?.charAt(0)?.toUpperCase();
@@ -62,7 +67,21 @@ const Navbar = () => {
               </ul>
             </nav>
 
+         
+
             <div className="flex items-center gap-4">
+              {/* CART ICON */}
+              <Link href="/cart" className="relative">
+              <ShoppingCart />
+              
+
+                {cart.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                    {totalQuantity}
+                  </span>
+                )}
+              </Link>
+
               {!user && (
                 <div className="sm:flex sm:gap-4">
                   <a
