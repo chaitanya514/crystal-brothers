@@ -29,3 +29,15 @@ export async function getNavbarData() {
     return [];
   }
 }
+
+export async function getProductData() {
+  try {
+    const response = await client.getEntries({ content_type: "product" });
+    return response.items;
+  } catch (error) {
+    console.error("Error fetching sections:", error);
+    return [];
+  }
+}
+
+

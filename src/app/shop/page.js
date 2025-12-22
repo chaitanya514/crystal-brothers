@@ -1,48 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
+import { getProductData } from "../lib/api";
 
-const products = [
-  {
-    id: 1,
-    name: "Amethyst Crystal",
-    price: 25,
-    image:
-      "https://images.unsplash.com/photo-1616627457232-3b8f3de0e0ce?auto=format&fit=crop&w=500&q=80",
-    slug: "amethyst-crystal",
-  },
-  {
-    id: 2,
-    name: "Rose Quartz",
-    price: 20,
-    image:
-      "https://images.unsplash.com/photo-1616627565457-734fdde9c76b?auto=format&fit=crop&w=500&q=80",
-    slug: "rose-quartz",
-  },
-  {
-    id: 3,
-    name: "Citrine Stone",
-    price: 22,
-    image:
-      "https://images.unsplash.com/photo-1622396480820-3a2954c1e0b3?auto=format&fit=crop&w=500&q=80",
-    slug: "citrine-stone",
-  },
-  {
-    id: 4,
-    name: "Clear Quartz",
-    price: 18,
-    image:
-      "https://images.unsplash.com/photo-1616627296823-3bbf92d516cc?auto=format&fit=crop&w=500&q=80",
-    slug: "clear-quartz",
-  },
-];
 
 const Shop = () => {
-  const { addItem, cart } = useCart();      // ✅ using global cart
+  const { addItem, cart } = useCart(); // ✅ using global cart
   const [quantities, setQuantities] = useState({});
+  const [products, SetProducts] = useState([]);
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getProductData();
+      SetProducts(data);
+    }
+    fetchData();
+  }, []); // ✅ empty deps → only once
 
   // increase quantity
   const increase = (id) => {
@@ -58,8 +35,9 @@ const Shop = () => {
 
   // add to cart
   const addToCart = (product) => {
-    const qty = quantities[product.id] || 1;
-    addItem({ ...product, quantity: qty });   // ✅ Use Context addItem
+    console.log("product while click on add to cart",product)
+    const qty = quantities[product?.id] || 1;
+    addItem({ ...product, quantity: qty }); // ✅ Use Context addItem
   };
 
   return (
@@ -72,39 +50,47 @@ const Shop = () => {
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
             <div
-              key={product.id}
-              className="border rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden bg-gray-50"
+              key={product?.fields?.id}
+              className="cursor-pointer group relative rounded-2xl bg-white border border-gray-200 shadow-[0_4px_20px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden"
             >
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={400}
-                height={400}
-                className="w-full h-56 object-cover"
-              />
+              {/* Image Section */}
+              <div className="relative overflow-hidden">
+                <Image
+                  src={`https:${product?.fields?.image?.fields?.file?.url}`} 
+                  alt={product.name}
+                  width={400}
+                  height={400}
+                  className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
 
-              <div className="p-4 text-center">
-                <h2 className="text-lg font-semibold text-gray-700">
-                  {product.name}
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
+              </div>
+
+              {/* Content */}
+              <div className="p-5 text-center">
+                <h2 className="text-lg font-semibold text-gray-800 group-hover:text-teal-600 transition">
+                  {product?.fields?.name}
                 </h2>
-                <p className="text-gray-500 mt-1">${product.price}</p>
+
+                <p className="text-gray-500 mt-1 text-sm">${product?.fields?.price}</p>
 
                 {/* Counter */}
-                <div className="flex items-center justify-center gap-3 mt-4">
+                <div className="flex items-center justify-center gap-4 mt-4">
                   <button
-                    onClick={() => decrease(product.id)}
-                    className="px-3 py-1 border rounded-lg"
+                    onClick={() => decrease(product?.fields?.id)}
+                    className="cursor-pointer w-9 h-9 text-xl border border-gray-300 rounded-lg hover:bg-gray-100 transition"
                   >
                     −
                   </button>
 
                   <span className="text-lg font-semibold">
-                    {quantities[product.id] || 1}
+                    {quantities[product?.fields?.id] || 1}
                   </span>
 
                   <button
-                    onClick={() => increase(product.id)}
-                    className="px-3 py-1 border rounded-lg"
+                    onClick={() => increase(product?.fields?.id)}
+                    className="cursor-pointer w-9 h-9 text-xl border border-gray-300 rounded-lg hover:bg-gray-100 transition"
                   >
                     +
                   </button>
@@ -113,7 +99,7 @@ const Shop = () => {
                 {/* Add to Cart */}
                 <button
                   onClick={() => addToCart(product)}
-                  className="mt-4 w-full px-4 py-2 bg-teal-600 text-white rounded-xl hover:bg-teal-700"
+                  className="cursor-pointer mt-5 w-full py-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-xl shadow hover:shadow-md hover:opacity-90 transition-all"
                 >
                   Add to Cart
                 </button>
@@ -121,7 +107,7 @@ const Shop = () => {
                 {/* View Details */}
                 <Link
                   href={`/shop/${product.slug}`}
-                  className="block mt-3 px-4 py-2 border border-teal-600 text-teal-600 rounded-xl hover:bg-teal-50 transition"
+                  className=" cursor-pointer block mt-3 px-4 py-2 border border-teal-600 text-teal-600 rounded-xl hover:bg-teal-50 transition"
                 >
                   View Details
                 </Link>
@@ -129,7 +115,6 @@ const Shop = () => {
             </div>
           ))}
         </div>
-
       </div>
     </main>
   );

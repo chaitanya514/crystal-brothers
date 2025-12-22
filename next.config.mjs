@@ -1,13 +1,3 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//     images: {
-//         domains: ['images.unsplash.com'],
-//       },
-// };
-
-// export default nextConfig;
-
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -15,6 +5,12 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.ctfassets.net",
+        port: "",
+        pathname: "/**",
       },
     ],
   },
